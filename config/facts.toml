@@ -1,0 +1,32 @@
+# The ONLY facts the generator is allowed to assert.
+#
+# The guard's fact-binding step checks every claim the semantic judge flags
+# against this file. A number, date, or verifiable statement that is not here
+# gets the post rejected — the model cannot invent a holder count, a listing,
+# a partnership, or a milestone.
+#
+# Keep this current. An out-of-date fact here becomes a false statement on a
+# public account tied to a financial asset.
+
+[[fact]]
+key = "launched"
+statement = "$TUFFTUNG4 has launched and is live on pump.fun."
+# ISO date. REQUIRED before the bot can reference launch timing.
+verified_on = ""
+
+[[fact]]
+key = "contract"
+# REQUIRED — the mint/contract address, if you want the bot to be able to
+# state it. Leave blank and the bot will simply never mention it.
+statement = ""
+verified_on = ""
+
+# Add more as they become true. Examples of the shape:
+#
+# [[fact]]
+# key = "holders_1k"
+# statement = "$TUFFTUNG4 passed 1,000 holders."
+# verified_on = "2026-09-21"
+#
+# Do NOT add anything you cannot point at a source for. This file is the
+# difference between the bot being confidently correct and confidently wrong.

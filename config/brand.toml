@@ -1,0 +1,91 @@
+# $TUFFTUNG4 brand + operating config.
+#
+# Everything the content system knows about the coin lives here. No secrets —
+# credentials come from environment variables (see README).
+
+[coin]
+ticker = "$TUFFTUNG4"
+# The X account the bot posts to. The OAuth token determines the actual account;
+# this is used for metrics lookups and self-reply threading.
+handle = ""                # REQUIRED — e.g. "tufftung4"
+# The coin has ALREADY LAUNCHED. The guard rejects any "launching soon" /
+# presale / pre-launch framing. Do not change this to true.
+launched = true
+# Where the coin lives. Never inlined into a post body — see [links].
+url = "https://pump.fun/coin/HBRvmP1dWmw3uGR4nRhgkJpWZGHFdxu49PAXpMsspump"
+
+[voice]
+# REQUIRED — fill these in before the first live post. The generator reads them
+# directly into its system prompt; empty values will fail config validation.
+#
+# What is the joke? What is the lore? Who is the character posting?
+premise = ""
+# 3-6 adjectives. e.g. "deadpan, absurd, self-aware, never tryhard"
+tone = ""
+# Things this account would never say or do. One per line.
+never = [
+    "beg for engagement (\"like and retweet!\")",
+    "use more than one emoji per post",
+    "say gm/wagmi/ser unironically",
+    "talk about price",
+]
+# Recurring bits the audience should come to expect.
+running_bits = []
+
+[cadence]
+# Posts per day. Keep this low until you've watched the output for a few days.
+# Every post costs money (see [budget]).
+posts_per_day = 3
+# UTC hours the bot is allowed to post in. Crypto X peaks around US market
+# hours and Asia evening; this is a starting guess, learn.py will refine it.
+allowed_hours_utc = [13, 17, 21]
+# Minimum minutes between posts, enforced regardless of schedule.
+min_gap_minutes = 90
+
+[generation]
+model = "claude-opus-5"
+# How many candidates to generate per slot. The guard rejects some; rank.py
+# picks the best survivor. More candidates = better output, higher cost.
+candidates = 5
+max_chars = 270
+
+[guard]
+# "tier2" = everything passing the guard posts unattended.
+# "tier1" = safe categories post, claim-bearing posts are held for review.
+# "tier0" = nothing posts automatically; everything is queued.
+tier = "tier2"
+# The semantic judge. Safety-critical, so it runs on the strong model.
+judge_model = "claude-opus-5"
+# Accounts the bot may @-mention. Empty = it may mention nobody. Mentioning
+# random accounts is how automated accounts get reported as spam.
+mention_allowlist = []
+
+[publish]
+# Posts go into Buffer's queue; Buffer posts them to X on its own schedule.
+# Buffer is an official X API partner, so nothing here touches X's paid API.
+backend = "buffer"
+# Buffer's free plan caps the queue at 10. Staying under it leaves room for
+# the cron to top up without createPost failing on a full queue.
+target_queue_depth = 8
+
+[links]
+# X organically suppresses posts containing external links, so the pump.fun
+# URL stays out of the post body. Put it in the account bio and a pinned post.
+allow_in_post = false
+# Buffer supports X threads, but the exact API shape for a threaded reply is
+# unverified (their docs are unreachable from the build environment), so
+# auto-attaching the link as a self-reply is not wired up yet.
+attach_as_reply = false
+reply_text = "contract + chart 👇"
+
+[budget]
+# Hard ceiling on Claude spend. Publishing costs nothing (Buffer free tier),
+# so this covers generation and the guard's judge calls only. An unattended
+# cron with a metered LLM behind it is how surprise bills happen; this is the
+# backstop.
+monthly_usd_cap = 25.00
+# Retained so the ledger can price a direct-to-X backend if one is ever added.
+# Unused while publish.backend = "buffer".
+x_cost_per_post = 0.015
+x_cost_per_post_with_url = 0.20
+x_cost_per_owned_read = 0.001
