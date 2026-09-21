@@ -65,15 +65,22 @@ query Channels($orgId: OrganizationId!) {
 }
 """
 
+# posts returns a Relay-style connection (PostsResults: edges + pageInfo), so
+# the nodes are nested one level down.
+#
 # Filtered client-side by channel and status rather than through
 # PostsFiltersInput: the free plan caps the queue at 10, so the result set is
 # tiny and this avoids depending on another input shape.
 QUEUE_QUERY = """
 query Queue($orgId: OrganizationId!) {
   posts(input: {organizationId: $orgId}) {
-    id
-    status
-    channelId
+    edges {
+      node {
+        id
+        status
+        channelId
+      }
+    }
   }
 }
 """
@@ -114,9 +121,7 @@ X_SERVICES = {"twitter", "x"}
 # seeing Buffer's schema at all.
 INTROSPECT_QUERY = """
 query Introspect {
-  postsResults: __type(name: "PostsResults") {
-    fields { name type { kind name ofType { kind name } } }
-  }
+  postType: __type(name: "Post") { fields { name } }
 }
 """
 
@@ -228,10 +233,12 @@ class BufferPublisher:
         """How many posts are already waiting. Free plan caps this at 10."""
         channel = self.resolve_channel()
         data = self._gql(QUEUE_QUERY, {"orgId": self.organization_id()})
+        edges = (data.get("posts") or {}).get("edges") or []
         return sum(
             1
-            for p in data.get("posts", [])
-            if p.get("channelId") == channel and p.get("status") in PENDING_STATUSES
+            for e in edges
+            for node in [e.get("node") or {}]
+            if node.get("channelId") == channel and node.get("status") in PENDING_STATUSES
         )
 
     def add_to_queue(self, text: str) -> str:
