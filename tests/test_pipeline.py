@@ -37,10 +37,24 @@ def test_shipped_config_loads() -> None:
     assert cfg.voice.tone.strip(), "voice.tone must not be blank"
 
 
-def test_shipped_config_asserts_no_facts() -> None:
-    """The cube voice never states anything checkable. An empty facts list is
-    the safest configuration and this test exists so nobody adds one casually."""
-    assert load().usable_facts == []
+def test_shipped_facts_are_physical_properties_only() -> None:
+    """Permitted facts must be things about tungsten, not about the token.
+
+    Physical constants cannot go stale or become false. A fact about supply,
+    holders, listings, or price can, and a stale fact here becomes a false
+    public statement — so this test exists to make adding one a deliberate act.
+    """
+    banned = (
+        "holder", "market", "cap", "price", "supply", "listed", "listing",
+        "partner", "burn", "volume", "launch",
+    )
+    for fact in load().usable_facts:
+        lowered = fact.statement.lower()
+        assert not any(b in lowered for b in banned), (
+            f"fact {fact.key!r} makes a claim about the token, not about tungsten: "
+            f"{fact.statement!r}"
+        )
+        assert fact.verified_on.strip()
 
 
 def test_missing_voice_is_rejected(tmp_path) -> None:

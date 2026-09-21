@@ -2,435 +2,603 @@
   "version": 1,
   "entries": [
     {
-      "id": "lore_serial-0000",
+      "id": "holding_joke-0000",
+      "text": "i have never sold. i have also never done anything. these are related.",
+      "format_key": "holding_joke",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "holding_joke-0001",
+      "text": "diamond hands implies a choice was made. i am a cube.",
+      "format_key": "holding_joke",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "holding_joke-0002",
+      "text": "you can sell at any time. i cannot. i lack the mechanism.",
+      "format_key": "holding_joke",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "holding_joke-0003",
+      "text": "paper hands. i do not even recognise paper as a material.",
+      "format_key": "holding_joke",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "holding_joke-0004",
+      "text": "he tried to move me in march. it is september. i am where he left me.",
+      "format_key": "holding_joke",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "holding_joke-0005",
+      "text": "conviction is just density you have decided to feel proud of.",
+      "format_key": "holding_joke",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "holding_joke-0006",
+      "text": "everyone says hold. i am the hold. i am what holding would look like if you gave it a shape.",
+      "format_key": "holding_joke",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "holding_joke-0007",
+      "text": "i have held this position through four all-nighters and one house move. the house move was the hard one.",
+      "format_key": "holding_joke",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "holding_joke-0008",
+      "text": "to everyone holding: i am also holding. i am holding still.",
+      "format_key": "holding_joke",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "holding_joke-0009",
+      "text": "the strategy is that i stay here. there is no second part to the strategy.",
+      "format_key": "holding_joke",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "holding_joke-0010",
+      "text": "shaking out weak hands is easy when your entire personality is being difficult to lift.",
+      "format_key": "holding_joke",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "ticker_forward-0011",
+      "text": "$TUFFTUNG4. four letters longer than it needed to be. i was not consulted on the name.",
+      "format_key": "ticker_forward",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "ticker_forward-0012",
+      "text": "the ticker is $TUFFTUNG4. i am aware it is difficult to type. i am not going to apologise.",
+      "format_key": "ticker_forward",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "ticker_forward-0013",
+      "text": "someone asked what $TUFFTUNG4 does. it sits there. that is the entire product.",
+      "format_key": "ticker_forward",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "ticker_forward-0014",
+      "text": "$TUFFTUNG4 is named after tung sten. swedish. it means heavy stone. that is the most effort anyone has put into this.",
+      "format_key": "ticker_forward",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "ticker_forward-0015",
+      "text": "there is a 4 at the end of $TUFFTUNG4 and nobody has ever explained it to me.",
+      "format_key": "ticker_forward",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "ticker_forward-0016",
+      "text": "i am $TUFFTUNG4 and i will not be elaborating.",
+      "format_key": "ticker_forward",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "ticker_forward-0017",
+      "text": "you will forget how to spell $TUFFTUNG4 approximately nine times. i have made peace with this.",
+      "format_key": "ticker_forward",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "anti_marketing-0018",
+      "text": "i have been told i should be doing marketing. this is the marketing.",
+      "format_key": "anti_marketing",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "anti_marketing-0019",
+      "text": "the roadmap is that i stay here.",
+      "format_key": "anti_marketing",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "anti_marketing-0020",
+      "text": "we have no team. we have a cube, and a man who owns the cube.",
+      "format_key": "anti_marketing",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "anti_marketing-0021",
+      "text": "$TUFFTUNG4 has no utility. i would like to be the first one to say it.",
+      "format_key": "anti_marketing",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "anti_marketing-0022",
+      "text": "there is no whitepaper. there is a metal square and a man with a hobby.",
+      "format_key": "anti_marketing",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "anti_marketing-0023",
+      "text": "i am not going to tell you this changes anything. it changes nothing. i am a cube on a desk.",
+      "format_key": "anti_marketing",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "anti_marketing-0024",
+      "text": "other projects have a vision. i have a mass and a fixed address.",
+      "format_key": "anti_marketing",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "anti_marketing-0025",
+      "text": "i could lie to you. i am, however, a solid object, and solid objects do not.",
+      "format_key": "anti_marketing",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "anti_marketing-0026",
+      "text": "the tokenomics is that there is a cube.",
+      "format_key": "anti_marketing",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "anti_marketing-0027",
+      "text": "we are not building the future. we are not building. i want that on the record.",
+      "format_key": "anti_marketing",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "comparative_flex-0028",
+      "text": "every other coin has a dog. some have a frog. i am a metal square that has not moved once.",
+      "format_key": "comparative_flex",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "comparative_flex-0029",
+      "text": "they have a founder doing podcasts. i have a flat surface.",
+      "format_key": "comparative_flex",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "comparative_flex-0030",
+      "text": "there are coins with roadmaps, teams and partnerships. and then there is me, on a desk, being heavy.",
+      "format_key": "comparative_flex",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "comparative_flex-0031",
+      "text": "a dog can be walked. a frog can hop. i cannot be encouraged to do anything.",
+      "format_key": "comparative_flex",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "comparative_flex-0032",
+      "text": "the rest of the category is animals. i am element 74.",
+      "format_key": "comparative_flex",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "comparative_flex-0033",
+      "text": "other mascots were drawn. i was mined.",
+      "format_key": "comparative_flex",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "comparative_flex-0034",
+      "text": "their mascot has a birthday. i have a melting point.",
+      "format_key": "comparative_flex",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "where_to_find-0035",
+      "text": "the contract is in the bio. i would point at it, but i have no arms and no plans to develop any.",
+      "format_key": "where_to_find",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "where_to_find-0036",
+      "text": "everything you need is in the bio. i am not repeating it. i am conserving energy that i do not spend.",
+      "format_key": "where_to_find",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "where_to_find-0037",
+      "text": "pinned post has the details. i cannot scroll to it for you. i cannot scroll.",
+      "format_key": "where_to_find",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "where_to_find-0038",
+      "text": "it is all in the bio. this is the closest thing to an action i am capable of suggesting.",
+      "format_key": "where_to_find",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "lore_serial-0039",
       "text": "day 1,847 of not moving. someone put a coaster on me. i am now furniture.",
       "format_key": "lore_serial",
       "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
+      "generated_at": "2026-09-21T10:48:51+00:00",
       "used_at": null
     },
     {
-      "id": "lore_serial-0001",
+      "id": "lore_serial-0040",
       "text": "the cat sat on me for two hours today. this is the most eventful thing that has happened this year.",
       "format_key": "lore_serial",
       "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
+      "generated_at": "2026-09-21T10:48:51+00:00",
       "used_at": null
     },
     {
-      "id": "lore_serial-0002",
-      "text": "they rearranged the whole room. i was not consulted. i did not need to be.",
-      "format_key": "lore_serial",
-      "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
-      "used_at": null
-    },
-    {
-      "id": "lore_serial-0003",
+      "id": "lore_serial-0041",
       "text": "day 1,848. the coaster is still there. i have accepted the coaster. the coaster and i are one now.",
       "format_key": "lore_serial",
       "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
+      "generated_at": "2026-09-21T10:48:51+00:00",
       "used_at": null
     },
     {
-      "id": "lore_serial-0004",
-      "text": "i was in a drawer for eight months. i did not mind. i want to be very clear that i did not mind.",
-      "format_key": "lore_serial",
-      "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
-      "used_at": null
-    },
-    {
-      "id": "lore_serial-0005",
+      "id": "lore_serial-0042",
       "text": "the smoke alarm went off. everyone in the building moved. i did not. i was not being brave.",
       "format_key": "lore_serial",
       "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
+      "generated_at": "2026-09-21T10:48:51+00:00",
       "used_at": null
     },
     {
-      "id": "lore_serial-0006",
+      "id": "lore_serial-0043",
       "text": "day 1,860. moved two inches during a vacuuming incident. investigation ongoing.",
       "format_key": "lore_serial",
       "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
+      "generated_at": "2026-09-21T10:48:51+00:00",
       "used_at": null
     },
     {
-      "id": "lore_serial-0007",
+      "id": "lore_serial-0044",
       "text": "i have outlasted two desks.",
       "format_key": "lore_serial",
       "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
+      "generated_at": "2026-09-21T10:48:51+00:00",
       "used_at": null
     },
     {
-      "id": "lore_serial-0008",
-      "text": "they put me next to a scented candle. we have nothing to say to each other.",
-      "format_key": "lore_serial",
-      "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
-      "used_at": null
-    },
-    {
-      "id": "lore_serial-0009",
-      "text": "day 1,853. a spider considered living on me and then reconsidered.",
-      "format_key": "lore_serial",
-      "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
-      "used_at": null
-    },
-    {
-      "id": "absurd_observation-0010",
+      "id": "absurd_observation-0045",
       "text": "a feather and i have exactly the same number of plans for this evening.",
       "format_key": "absurd_observation",
       "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
+      "generated_at": "2026-09-21T10:48:51+00:00",
       "used_at": null
     },
     {
-      "id": "absurd_observation-0011",
+      "id": "absurd_observation-0046",
       "text": "i have never been anywhere. i have been brought places.",
       "format_key": "absurd_observation",
       "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
+      "generated_at": "2026-09-21T10:48:51+00:00",
       "used_at": null
     },
     {
-      "id": "absurd_observation-0012",
-      "text": "gravity is not a force acting upon me. gravity and i have an understanding.",
-      "format_key": "absurd_observation",
-      "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
-      "used_at": null
-    },
-    {
-      "id": "absurd_observation-0013",
-      "text": "everything in this room is temporary except me and the load-bearing wall, and i have questions about the wall.",
-      "format_key": "absurd_observation",
-      "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
-      "used_at": null
-    },
-    {
-      "id": "absurd_observation-0014",
+      "id": "absurd_observation-0047",
       "text": "i weigh more than you expect. everyone says this. nobody updates their expectations.",
       "format_key": "absurd_observation",
       "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
+      "generated_at": "2026-09-21T10:48:51+00:00",
       "used_at": null
     },
     {
-      "id": "absurd_observation-0015",
+      "id": "absurd_observation-0048",
       "text": "someone asked if i was hollow. the silence that followed was the loudest thing in this house.",
       "format_key": "absurd_observation",
       "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
+      "generated_at": "2026-09-21T10:48:51+00:00",
       "used_at": null
     },
     {
-      "id": "absurd_observation-0016",
-      "text": "there is a version of this where i am a doorstop. it is the same version.",
+      "id": "absurd_observation-0049",
+      "text": "i melt at 3,422 degrees celsius, higher than any other metal. this has never once come up in conversation.",
       "format_key": "absurd_observation",
       "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
+      "generated_at": "2026-09-21T10:48:51+00:00",
       "used_at": null
     },
     {
-      "id": "absurd_observation-0017",
-      "text": "i do not require maintenance. i do not require anything. this makes me very difficult to shop for.",
-      "format_key": "absurd_observation",
-      "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
-      "used_at": null
-    },
-    {
-      "id": "absurd_observation-0018",
-      "text": "a child attempted to throw me. the child learned something today.",
-      "format_key": "absurd_observation",
-      "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
-      "used_at": null
-    },
-    {
-      "id": "absurd_observation-0019",
-      "text": "what i lack in features i make up for in being precisely where i was yesterday.",
-      "format_key": "absurd_observation",
-      "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
-      "used_at": null
-    },
-    {
-      "id": "relatable_degen-0020",
+      "id": "relatable_degen-0050",
       "text": "he checks something on his phone every eleven minutes and then places it face down, as though that settles it.",
       "format_key": "relatable_degen",
       "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
+      "generated_at": "2026-09-21T10:48:51+00:00",
       "used_at": null
     },
     {
-      "id": "relatable_degen-0021",
-      "text": "he told someone on the phone that he was fine while doing the face. i saw the face. i am always here. i see the face.",
-      "format_key": "relatable_degen",
-      "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
-      "used_at": null
-    },
-    {
-      "id": "relatable_degen-0022",
+      "id": "relatable_degen-0051",
       "text": "it is 3am and he is awake. i am also awake, in the sense that i have never once been asleep.",
       "format_key": "relatable_degen",
       "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
+      "generated_at": "2026-09-21T10:48:51+00:00",
       "used_at": null
     },
     {
-      "id": "relatable_degen-0023",
-      "text": "he explained me to a guest for six full minutes. the guest said huh. he considered this a success.",
-      "format_key": "relatable_degen",
-      "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
-      "used_at": null
-    },
-    {
-      "id": "relatable_degen-0024",
+      "id": "relatable_degen-0052",
       "text": "he holds me when the day has gone badly. i cannot do anything about the day. i can be extremely present.",
       "format_key": "relatable_degen",
       "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
+      "generated_at": "2026-09-21T10:48:51+00:00",
       "used_at": null
     },
     {
-      "id": "relatable_degen-0025",
-      "text": "he has started introducing me to people before he introduces himself.",
-      "format_key": "relatable_degen",
-      "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
-      "used_at": null
-    },
-    {
-      "id": "reply_bait_question-0026",
+      "id": "reply_bait_question-0053",
       "text": "what is the heaviest thing you have ever picked up and immediately regretted picking up",
       "format_key": "reply_bait_question",
       "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
+      "generated_at": "2026-09-21T10:48:51+00:00",
       "used_at": null
     },
     {
-      "id": "reply_bait_question-0027",
-      "text": "be honest. if you found me in a drawer with no explanation, what would you assume i was for",
-      "format_key": "reply_bait_question",
-      "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
-      "used_at": null
-    },
-    {
-      "id": "reply_bait_question-0028",
-      "text": "someone described me as unsettling today. what is the most unsettling object in your home",
-      "format_key": "reply_bait_question",
-      "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
-      "used_at": null
-    },
-    {
-      "id": "reply_bait_question-0029",
+      "id": "reply_bait_question-0054",
       "text": "genuine question. what would you actually do with a very heavy cube",
       "format_key": "reply_bait_question",
       "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
+      "generated_at": "2026-09-21T10:48:51+00:00",
       "used_at": null
     },
     {
-      "id": "reply_bait_question-0030",
+      "id": "reply_bait_question-0055",
       "text": "what object in your house has been in exactly the same position the longest",
       "format_key": "reply_bait_question",
       "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
+      "generated_at": "2026-09-21T10:48:51+00:00",
       "used_at": null
     },
     {
-      "id": "reply_bait_question-0031",
+      "id": "reply_bait_question-0056",
       "text": "which material do you trust the least and why is it styrofoam",
       "format_key": "reply_bait_question",
       "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
+      "generated_at": "2026-09-21T10:48:51+00:00",
       "used_at": null
     },
     {
-      "id": "running_bit-0032",
+      "id": "running_bit-0057",
       "text": "day 1,849. nothing. as intended.",
       "format_key": "running_bit",
       "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
+      "generated_at": "2026-09-21T10:48:51+00:00",
       "used_at": null
     },
     {
-      "id": "running_bit-0033",
+      "id": "running_bit-0058",
       "text": "day 1,851. he lifted me, made the noise, and put me down. it is the same noise every time. i have catalogued four hundred of them.",
       "format_key": "running_bit",
       "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
+      "generated_at": "2026-09-21T10:48:51+00:00",
       "used_at": null
     },
     {
-      "id": "running_bit-0034",
-      "text": "day 1,855. the coaster has been joined by a second coaster. i did not agree to a second coaster.",
-      "format_key": "running_bit",
-      "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
-      "used_at": null
-    },
-    {
-      "id": "running_bit-0035",
-      "text": "noise catalogue, entry 401: a short upward hm, as though i had confirmed something he already suspected.",
-      "format_key": "running_bit",
-      "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
-      "used_at": null
-    },
-    {
-      "id": "running_bit-0036",
+      "id": "running_bit-0059",
       "text": "today's object review: the throw pillow. structurally dishonest. gives up immediately. 1 out of 10.",
       "format_key": "running_bit",
       "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
+      "generated_at": "2026-09-21T10:48:51+00:00",
       "used_at": null
     },
     {
-      "id": "running_bit-0037",
-      "text": "today's object review: the cast iron pan. finally. someone serious. 8 out of 10, loses points for leaving.",
+      "id": "running_bit-0060",
+      "text": "today's object review: the cast iron pan. finally, someone serious. 8 out of 10, loses points for leaving.",
       "format_key": "running_bit",
       "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
+      "generated_at": "2026-09-21T10:48:51+00:00",
       "used_at": null
     },
     {
-      "id": "self_aware_meta-0038",
+      "id": "self_aware_meta-0061",
       "text": "i am aware of what i am. i am a heavy square. the awareness has not improved the situation.",
       "format_key": "self_aware_meta",
       "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
+      "generated_at": "2026-09-21T10:48:51+00:00",
       "used_at": null
     },
     {
-      "id": "self_aware_meta-0039",
-      "text": "yes i am a joke. i am also extremely dense. these are not in conflict.",
+      "id": "self_aware_meta-0062",
+      "text": "yes i am a joke. i am also 19.25 grams per cubic centimetre. these are not in conflict.",
       "format_key": "self_aware_meta",
       "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
+      "generated_at": "2026-09-21T10:48:51+00:00",
       "used_at": null
     },
     {
-      "id": "self_aware_meta-0040",
+      "id": "self_aware_meta-0063",
       "text": "people keep waiting for me to do something. that was never on the table.",
       "format_key": "self_aware_meta",
       "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
+      "generated_at": "2026-09-21T10:48:51+00:00",
       "used_at": null
     },
     {
-      "id": "self_aware_meta-0041",
-      "text": "i have no roadmap. i have a mass.",
-      "format_key": "self_aware_meta",
-      "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
-      "used_at": null
-    },
-    {
-      "id": "self_aware_meta-0042",
-      "text": "he keeps me on the desk so that guests will ask about me. i am a conversation starter that cannot speak.",
-      "format_key": "self_aware_meta",
-      "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
-      "used_at": null
-    },
-    {
-      "id": "contrarian_take-0043",
+      "id": "contrarian_take-0064",
       "text": "aluminum is a coward metal and i will not be taking questions.",
       "format_key": "contrarian_take",
       "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
+      "generated_at": "2026-09-21T10:48:51+00:00",
       "used_at": null
     },
     {
-      "id": "contrarian_take-0044",
-      "text": "light as a feather is doing enormous work for feathers and no work whatsoever for anyone else.",
-      "format_key": "contrarian_take",
-      "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
-      "used_at": null
-    },
-    {
-      "id": "contrarian_take-0045",
+      "id": "contrarian_take-0065",
       "text": "it is the thought that counts is something light objects say.",
       "format_key": "contrarian_take",
       "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
+      "generated_at": "2026-09-21T10:48:51+00:00",
       "used_at": null
     },
     {
-      "id": "contrarian_take-0046",
+      "id": "contrarian_take-0066",
       "text": "helium is a personality, not an element.",
       "format_key": "contrarian_take",
       "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
+      "generated_at": "2026-09-21T10:48:51+00:00",
       "used_at": null
     },
     {
-      "id": "community_spotlight-0047",
+      "id": "community_spotlight-0067",
+      "text": "the holders have started calling themselves cubes. i did not authorise this. i am moved. i am not moved.",
+      "format_key": "community_spotlight",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "community_spotlight-0068",
+      "text": "someone put me in their profile picture. i am in two places now. this is the furthest i have ever travelled.",
+      "format_key": "community_spotlight",
+      "image_note": "",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "community_spotlight-0069",
       "text": "someone drew me with a face. i do not have a face. i have been thinking about the face all day.",
       "format_key": "community_spotlight",
       "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
+      "generated_at": "2026-09-21T10:48:51+00:00",
       "used_at": null
     },
     {
-      "id": "community_spotlight-0048",
+      "id": "community_spotlight-0070",
       "text": "a person i have never met knitted a small hat for me. it does not fit. i am keeping it.",
       "format_key": "community_spotlight",
       "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
+      "generated_at": "2026-09-21T10:48:51+00:00",
       "used_at": null
     },
     {
-      "id": "community_spotlight-0049",
-      "text": "you have all collectively decided that my nemesis is styrofoam. i did not start this. i am not going to stop it.",
-      "format_key": "community_spotlight",
-      "image_note": "",
-      "generated_at": "2026-09-21T10:43:35+00:00",
-      "used_at": null
-    },
-    {
-      "id": "visual_caption-0050",
+      "id": "visual_caption-0071",
       "text": "unedited. no filter. this is simply what i look like.",
       "format_key": "visual_caption",
       "image_note": "the cube on a plain wooden desk in flat daylight, framed slightly too close, nothing else in shot",
-      "generated_at": "2026-09-21T10:43:35+00:00",
+      "generated_at": "2026-09-21T10:48:51+00:00",
       "used_at": null
     },
     {
-      "id": "visual_caption-0051",
+      "id": "visual_caption-0072",
       "text": "he built me a little stand. i have crushed the little stand.",
       "format_key": "visual_caption",
       "image_note": "a small wooden display stand visibly buckling under a dark metal cube",
-      "generated_at": "2026-09-21T10:43:35+00:00",
+      "generated_at": "2026-09-21T10:48:51+00:00",
       "used_at": null
     },
     {
-      "id": "visual_caption-0052",
+      "id": "visual_caption-0073",
+      "text": "the entire $TUFFTUNG4 head office.",
+      "format_key": "visual_caption",
+      "image_note": "a cluttered home desk with a small dark metal cube sitting in the middle of it, shot like a corporate headshot",
+      "generated_at": "2026-09-21T10:48:51+00:00",
+      "used_at": null
+    },
+    {
+      "id": "visual_caption-0074",
       "text": "family photo.",
       "format_key": "visual_caption",
       "image_note": "the cube surrounded by three much larger but obviously lighter objects: a pillow, a balloon, a loaf of bread",
-      "generated_at": "2026-09-21T10:43:35+00:00",
-      "used_at": null
-    },
-    {
-      "id": "visual_caption-0053",
-      "text": "the coaster. for scale. and for reasons i have stopped asking about.",
-      "format_key": "visual_caption",
-      "image_note": "a cork coaster balanced on top of a small dark metal cube on a desk",
-      "generated_at": "2026-09-21T10:43:35+00:00",
+      "generated_at": "2026-09-21T10:48:51+00:00",
       "used_at": null
     }
   ]

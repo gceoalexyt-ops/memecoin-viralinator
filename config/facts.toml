@@ -8,15 +8,33 @@
 # Keep this current. An out-of-date fact here becomes a false statement on a
 # public account tied to a financial asset.
 
-# Currently EMPTY, on purpose.
+# Contains only verifiable physical properties of tungsten — nothing about the
+# token's price, supply, holders, or prospects, and nothing that can go stale.
 #
-# The cube voice never states facts about the token — it talks about being
-# heavy. So the bank needs no permitted facts at all, and an empty list is the
-# safest possible configuration: the guard rejects any post that asserts
-# anything checkable, and nothing in the bank tries to.
-#
-# Only add entries here if you later want the account to reference something
-# real. A statement with no verified_on date fails config validation.
+# These exist so the cube can be specific. "I am extremely dense" is a shrug;
+# "19.25 grams per cubic centimetre" is a joke with a number in it. The guard
+# rejects any assertion not on this list, so being able to cite real physics is
+# what lets the voice have texture without inventing anything.
+
+[[fact]]
+key = "density"
+statement = "Tungsten has a density of 19.25 grams per cubic centimetre."
+verified_on = "2026-09-21"
+
+[[fact]]
+key = "melting_point"
+statement = "Tungsten melts at 3,422 °C, the highest melting point of any metal."
+verified_on = "2026-09-21"
+
+[[fact]]
+key = "atomic_number"
+statement = "Tungsten is element 74, symbol W."
+verified_on = "2026-09-21"
+
+[[fact]]
+key = "name_origin"
+statement = "The name tungsten comes from the Swedish tung sten, meaning heavy stone."
+verified_on = "2026-09-21"
 
 # [[fact]]
 # key = "launched"

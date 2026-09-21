@@ -152,6 +152,72 @@ FORMATS: list[Format] = [
         base_weight=1.1,
     ),
     Format(
+        key="holding_joke",
+        description="Not moving is not selling — the core bit",
+        instruction=(
+            "The cube does not move. That is also what holders do. Land that "
+            "joke without ever explaining it. Diamond hands, paper hands, "
+            "conviction, never selling — all of it reframed as the physical "
+            "properties of a very heavy object. This is the account's single "
+            "strongest promotional format because the premise and the pitch are "
+            "the same sentence. Never mention price, returns, or what the token "
+            "will do — the joke is about immobility, not gains."
+        ),
+        category="safe",
+        base_weight=1.5,
+    ),
+    Format(
+        key="ticker_forward",
+        description="Names the ticker, stays a joke",
+        instruction=(
+            "Use the ticker in the post. Say it plainly, then undercut it — the "
+            "name is too long, it is hard to type, nobody chose it well. Naming "
+            "the thing you are is not marketing spin, and a feed where the "
+            "ticker never appears is a feed nobody can act on. Make no claim "
+            "about the token beyond its existence."
+        ),
+        category="safe",
+        base_weight=1.35,
+    ),
+    Format(
+        key="anti_marketing",
+        description="Marketing, performed badly, on purpose",
+        instruction=(
+            "Do promotion openly and terribly. Admit there is no utility, no "
+            "roadmap, no team, no plan. The honesty IS the pitch — it reads as "
+            "trustworthy in a space full of accounts overpromising. Never "
+            "actually promise anything, and never tell anyone to buy."
+        ),
+        category="safe",
+        base_weight=1.4,
+    ),
+    Format(
+        key="comparative_flex",
+        description="Versus every other coin, favourably, absurdly",
+        instruction=(
+            "Compare this account to other memecoins — they have dogs, frogs, "
+            "founders doing podcasts, whitepapers, roadmaps. This one has a "
+            "heavy object that stays put. Punch at the category, never at a "
+            "specific named token or person, and make no claim about any "
+            "token's prospects including this one."
+        ),
+        category="safe",
+        base_weight=1.3,
+    ),
+    Format(
+        key="where_to_find",
+        description="Points at the bio without a link",
+        instruction=(
+            "Direct people to the contract or chart, which live in the bio and "
+            "the pinned post. The cube cannot point, having no arms and no "
+            "intention of moving. Never include a URL in the post body — links "
+            "are organically suppressed and the guard rejects them. Never tell "
+            "anyone to buy; just say where the information is."
+        ),
+        category="safe",
+        base_weight=1.15,
+    ),
+    Format(
         key="milestone",
         description="Mark something that actually happened",
         instruction=(

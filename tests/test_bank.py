@@ -143,3 +143,28 @@ def test_shipped_bank_has_format_variety() -> None:
     assert len(counts) >= 6
     total = sum(t for _, t in counts.values())
     assert max(t for _, t in counts.values()) < total * 0.4
+
+
+PROMO_FORMATS = {
+    "holding_joke", "ticker_forward", "anti_marketing",
+    "comparative_flex", "where_to_find",
+}
+
+
+def test_shipped_bank_actually_promotes_the_token() -> None:
+    """This is a marketing account. A feed where you could scroll for a week
+    without learning there is a coin is a failed feed — but an all-promo feed
+    gets muted, so the target is a genuine mix."""
+    entries = Bank.load().entries
+    promo = [e for e in entries if e.format_key in PROMO_FORMATS]
+    share = len(promo) / len(entries)
+    assert 0.35 <= share <= 0.65, (
+        f"promotional share is {share:.0%}; want 35-65%. "
+        "Too low and the account sells nothing, too high and it gets muted."
+    )
+
+
+def test_ticker_appears_in_the_bank() -> None:
+    """Someone has to be able to find out what the coin is called."""
+    mentions = [e for e in Bank.load().entries if "$TUFFTUNG4" in e.text]
+    assert len(mentions) >= 5, "the ticker barely appears in the feed"
