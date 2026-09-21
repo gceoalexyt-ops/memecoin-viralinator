@@ -19,5 +19,11 @@ viralinator = "viralinator.cli:main"
 requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
+# Declared explicitly. Without this, setuptools' flat-layout auto-discovery
+# sees config/ as a second top-level package and refuses to build. config/
+# holds TOML and JSON read by path at runtime, not importable modules.
+[tool.setuptools]
+packages = ["viralinator"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
