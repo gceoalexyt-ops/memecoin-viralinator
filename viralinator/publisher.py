@@ -114,11 +114,8 @@ X_SERVICES = {"twitter", "x"}
 # seeing Buffer's schema at all.
 INTROSPECT_QUERY = """
 query Introspect {
-  accountType: __type(name: "Account") { fields { name } }
-  organizationType: __type(name: "Organization") { fields { name } }
-  postType: __type(name: "Post") { fields { name } }
-  postsFiltersInput: __type(name: "PostsFiltersInput") {
-    inputFields { name type { kind name ofType { kind name } } }
+  postsResults: __type(name: "PostsResults") {
+    fields { name type { kind name ofType { kind name } } }
   }
 }
 """
