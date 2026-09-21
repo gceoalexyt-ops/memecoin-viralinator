@@ -71,20 +71,20 @@ mutation CreatePost($input: CreatePostInput!) {
 # queries above are right, and if not, exactly what the correct shape is.
 INTROSPECT_QUERY = """
 query Introspect {
-  mutationType: __type(name: "Mutation") {
-    fields { name }
+  channelsInput: __type(name: "ChannelsInput") {
+    inputFields { name type { name kind ofType { name kind } } }
   }
-  queryType: __type(name: "Query") {
-    fields { name }
+  postsInput: __type(name: "PostsInput") {
+    inputFields { name type { name kind ofType { name kind } } }
   }
-  createPostInput: __type(name: "CreatePostInput") {
-    inputFields {
-      name
-      type { name kind ofType { name kind } }
-    }
+  shareMode: __type(name: "ShareMode") { enumValues { name } }
+  schedulingType: __type(name: "SchedulingType") { enumValues { name } }
+  postStatus: __type(name: "PostStatus") { enumValues { name } }
+  postActionSuccess: __type(name: "PostActionSuccess") {
+    fields { name type { name kind ofType { name kind } } }
   }
-  payload: __type(name: "PostActionPayload") {
-    possibleTypes { name }
+  channelType: __type(name: "Channel") {
+    fields { name type { name kind ofType { name kind } } }
   }
 }
 """
