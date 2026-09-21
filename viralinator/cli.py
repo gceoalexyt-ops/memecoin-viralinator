@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from datetime import datetime, timedelta, timezone
 
@@ -54,20 +55,40 @@ def cmd_verify(args) -> int:
     if not cfg.usable_facts:
         print("  note: with no facts, the guard will reject any post stating anything")
 
-    print("anthropic ... ", end="")
-    try:
-        c = _client()
-        c.messages.create(
-            model=cfg.guard.judge_model,
-            max_tokens=16,
-            messages=[{"role": "user", "content": "reply with: ok"}],
-        )
-        print("ok")
-    except Exception as exc:  # noqa: BLE001
-        print(f"FAIL: {exc}")
-        return 1
+    from .bank import Bank
 
-    pub = BufferPublisher()
+    bank = Bank.load()
+    unused = len(bank.unused())
+    days = bank.days_remaining(cfg.cadence.posts_per_day)
+    print(f"bank ... {unused} unused (~{days:.0f} days at {cfg.cadence.posts_per_day}/day)")
+    if unused == 0:
+        print("  FAIL: bank is empty, nothing can be posted")
+        return 1
+    if days < 14:
+        print("  low — ask Claude to refill before it runs out")
+
+    # Not required at runtime. The cron posts from the bank; Anthropic access is
+    # only needed to refill it, which happens in a session with a human present.
+    print("anthropic ... ", end="")
+    if not os.environ.get("ANTHROPIC_API_KEY"):
+        print("not configured (fine — only needed for `bank fill`)")
+    else:
+        try:
+            _client().messages.create(
+                model=cfg.guard.judge_model,
+                max_tokens=16,
+                messages=[{"role": "user", "content": "reply with: ok"}],
+            )
+            print("ok")
+        except Exception as exc:  # noqa: BLE001
+            print(f"unavailable: {exc}")
+            print("  (not fatal — the cron does not use it)")
+
+    try:
+        pub = BufferPublisher()
+    except PublishError as exc:
+        print(f"buffer ... FAIL\n  {exc}")
+        return 1
 
     if args.introspect:
         print("\nbuffer schema introspection:")
@@ -164,7 +185,8 @@ def cmd_draft(args) -> int:
 
 
 def cmd_run(args) -> int:
-    from .generate import Generator
+    """The cron job. Draws from the pre-screened bank — no LLM, no API key."""
+    from .bank import Bank
     from .publisher import BufferPublisher, PublishError
 
     if _paused():
@@ -173,12 +195,14 @@ def cmd_run(args) -> int:
 
     cfg = load()
     store = Store()
-    budget = Budget(cfg, store)
+    bank = Bank.load()
 
-    try:
-        budget.check()
-    except BudgetExceeded as exc:
-        print(f"budget: {exc}")
+    remaining = len(bank.unused())
+    if remaining == 0:
+        print(
+            "bank is empty — nothing to post.\n"
+            "Ask Claude to refill it (`viralinator bank fill -n 100`) and commit."
+        )
         return 1
 
     try:
@@ -190,37 +214,105 @@ def cmd_run(args) -> int:
 
     target = cfg.publish.target_queue_depth
     need = max(0, target - depth)
-    print(f"queue depth {depth}/{target}; generating {need}")
+    print(f"queue {depth}/{target}; bank has {remaining} unused; pushing {need}")
     if need == 0:
         return 0
 
-    client = _client()
-    guard = Guard(cfg, client=client, budget=budget)
-    generator = Generator(cfg, client=client, budget=budget)
-
     published = 0
     for _ in range(need):
-        try:
-            budget.check()
-        except BudgetExceeded as exc:
-            print(f"budget: {exc}")
+        fmt = rank.pick_format(store, cfg.guard.tier)
+        entry = bank.take(fmt.key)
+        if entry is None:
+            print("  bank exhausted mid-run")
             break
 
-        result = _generate_one(cfg, store, guard, generator)
-        if not result:
-            continue
-        post_id, cand = result
+        post_id = store.record_draft(entry.format_key, entry.text)
         try:
-            pub.add_to_queue(cand.text)
+            pub.add_to_queue(entry.text)
         except PublishError as exc:
+            # Put it back — an unpublished post should not be marked used.
+            entry.used_at = None
             store.mark_failed(post_id, str(exc))
             print(f"  publish failed: {exc}")
             break
-        store.mark_posted(post_id, f"buffer:{post_id}")
-        published += 1
-        print(f"  queued: {cand.text[:70]!r}")
 
-    print(f"\nqueued {published}; spend this month: {budget.status()}")
+        store.mark_posted(post_id, f"buffer:{entry.id}")
+        published += 1
+        print(f"  queued [{entry.format_key}]: {entry.text[:70]!r}")
+
+    bank.save()
+
+    left = len(bank.unused())
+    days = bank.days_remaining(cfg.cadence.posts_per_day)
+    print(f"\nqueued {published}; bank has {left} left (~{days:.0f} days)")
+    if days < 14:
+        print("  LOW: ask Claude to refill the bank soon")
+    return 0
+
+
+def cmd_bank_fill(args) -> int:
+    """Generate and screen new posts into the bank. Needs Anthropic access."""
+    from .bank import Bank
+    from .generate import Generator
+    from .formats import selectable
+
+    cfg = load()
+    store = Store()
+    budget = Budget(cfg, store)
+    client = _client()
+    guard = Guard(cfg, client=client, budget=budget)
+    generator = Generator(cfg, client=client, budget=budget)
+    bank = Bank.load()
+
+    formats = selectable(cfg.guard.tier)
+    added = 0
+    rejected = 0
+    dupes = 0
+
+    # Spread evenly across formats so the bank doesn't end up all one shape.
+    rounds = max(1, args.n // (len(formats) * cfg.generation.candidates) + 1)
+
+    for _ in range(rounds):
+        for fmt in formats:
+            if added >= args.n:
+                break
+            for cand in generator.generate(fmt):
+                if added >= args.n:
+                    break
+                verdict = guard.check(cand.text)
+                if not verdict.ok:
+                    rejected += 1
+                    print(f"  {verdict}")
+                    continue
+                if bank.contains_similar(cand.text):
+                    dupes += 1
+                    continue
+                bank.add(cand.text, cand.format_key, cand.image_note)
+                added += 1
+                print(f"  + [{fmt.key}] {cand.text[:66]!r}")
+
+    bank.save()
+    print(
+        f"\nadded {added}, rejected {rejected}, skipped {dupes} near-duplicates\n"
+        f"bank now holds {len(bank.unused())} unused "
+        f"(~{bank.days_remaining(cfg.cadence.posts_per_day):.0f} days)\n"
+        f"spend: {budget.status()}\n"
+        f"commit config/bank.json to make this live."
+    )
+    return 0
+
+
+def cmd_bank_status(args) -> int:
+    from .bank import Bank
+
+    cfg = load()
+    bank = Bank.load()
+    unused = len(bank.unused())
+    print(f"bank: {unused} unused / {len(bank.entries)} total")
+    print(f"      ~{bank.days_remaining(cfg.cadence.posts_per_day):.0f} days at "
+          f"{cfg.cadence.posts_per_day}/day\n")
+    for key, (u, total) in sorted(bank.counts().items()):
+        print(f"  {key:<22} {u:>3} unused / {total:>3}")
     return 0
 
 
@@ -310,6 +402,15 @@ def main(argv: list[str] | None = None) -> int:
     d = sub.add_parser("draft")
     d.add_argument("-n", type=int, default=1, help="how many slots to draft")
     d.set_defaults(fn=cmd_draft)
+
+    bank = sub.add_parser("bank", help="manage the pre-screened content bank")
+    bank_sub = bank.add_subparsers(dest="bank_cmd", required=True)
+    bf = bank_sub.add_parser("fill", help="generate + screen new posts (needs Anthropic)")
+    bf.add_argument("-n", type=int, default=50, help="how many posts to add")
+    bf.set_defaults(fn=cmd_bank_fill)
+    bank_sub.add_parser("status", help="how much runway is left").set_defaults(
+        fn=cmd_bank_status
+    )
 
     args = parser.parse_args(argv)
     try:

@@ -1,16 +1,24 @@
 name: post
 
-# Tops Buffer's queue back up. Buffer does the actual posting to X on its own
-# schedule, so this job does not need to run at posting time — it only needs to
-# run often enough that the queue never empties.
+# Tops Buffer's queue back up from the pre-screened content bank. Buffer does
+# the actual posting to X on its own schedule, so this job only needs to run
+# often enough that the queue never empties.
 #
-# The schedule is COMMENTED OUT deliberately. Enable it only after
-# `viralinator verify` passes and you have watched one supervised `draft` run.
+# Note what this job does NOT need: an Anthropic API key. Posts were written
+# and screened ahead of time and live in config/bank.json, so the only
+# credential in play is the Buffer token. Nothing here can expire quietly,
+# overrun a budget, or fail on a rate limit.
+#
+# The schedule is COMMENTED OUT deliberately. Enable it only after the verify
+# workflow passes.
 
 on:
   workflow_dispatch:
   # schedule:
   #   - cron: "0 */12 * * *"   # every 12h — queue holds 8, drains ~3/day
+
+permissions:
+  contents: write   # to commit the consumed bank back
 
 concurrency:
   group: viralinator-publish
@@ -27,10 +35,8 @@ jobs:
         with:
           python-version: "3.11"
 
-      # The SQLite file carries the spend ledger and learned format weights.
-      # Rolling key: every run writes a fresh cache, restore-keys picks up the
-      # most recent one. If the cache is ever evicted the weights reset to
-      # their priors — not fatal, just a loss of learning.
+      # Holds learned format weights. Consumption state lives in the bank file
+      # and is committed, not cached — the cache can be evicted, git cannot.
       - name: Restore state
         uses: actions/cache@v4
         with:
@@ -41,17 +47,23 @@ jobs:
       - name: Install
         run: pip install --quiet -e .
 
-      - name: Top up queue
+      - name: Push to Buffer queue
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           BUFFER_ACCESS_TOKEN: ${{ secrets.BUFFER_ACCESS_TOKEN }}
           BUFFER_CHANNEL_ID: ${{ secrets.BUFFER_CHANNEL_ID }}
         run: python -m viralinator.cli run
 
-      - name: Status
-        if: always()
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          BUFFER_ACCESS_TOKEN: ${{ secrets.BUFFER_ACCESS_TOKEN }}
-          BUFFER_CHANNEL_ID: ${{ secrets.BUFFER_CHANNEL_ID }}
-        run: python -m viralinator.cli status
+      # Records which posts have been used. `git log config/bank.json` becomes
+      # a readable history of what went out and when.
+      - name: Commit consumed bank
+        run: |
+          set -eu
+          if git diff --quiet -- config/bank.json; then
+            echo "bank unchanged"
+            exit 0
+          fi
+          git config user.name  "viralinator"
+          git config user.email "noreply@github.com"
+          git add config/bank.json
+          git commit -m "chore: mark banked posts as published [skip ci]"
+          git push

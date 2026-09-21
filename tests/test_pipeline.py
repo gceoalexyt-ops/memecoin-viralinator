@@ -28,14 +28,39 @@ def store(tmp_path) -> Store:
 # --- config validation -----------------------------------------------------------
 
 
-def test_shipped_config_is_incomplete_until_filled_in(tmp_path) -> None:
-    """The repo's config ships with required fields blank on purpose — the bot
-    must not be able to post before someone fills in the voice and handle."""
+def test_shipped_config_loads() -> None:
+    """The repo's own config must be valid — CI catches a broken brand.toml
+    before the cron does."""
+    cfg = load()
+    assert cfg.coin.ticker == "$TUFFTUNG4"
+    assert cfg.voice.premise.strip(), "voice.premise must not be blank"
+    assert cfg.voice.tone.strip(), "voice.tone must not be blank"
+
+
+def test_shipped_config_asserts_no_facts() -> None:
+    """The cube voice never states anything checkable. An empty facts list is
+    the safest configuration and this test exists so nobody adds one casually."""
+    assert load().usable_facts == []
+
+
+def test_missing_voice_is_rejected(tmp_path) -> None:
+    (tmp_path / "brand.toml").write_text(
+        """
+[coin]
+ticker = "$X"
+handle = "x"
+launched = true
+[voice]
+premise = ""
+tone = ""
+[cadence]
+posts_per_day = 1
+allowed_hours_utc = [12]
+"""
+    )
     with pytest.raises(ConfigError) as exc:
-        load()
-    msg = str(exc.value)
-    assert "coin.handle" in msg
-    assert "voice.premise" in msg
+        load(tmp_path)
+    assert "voice.premise" in str(exc.value)
 
 
 def test_config_rejects_oversized_queue_target(tmp_path) -> None:

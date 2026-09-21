@@ -8,18 +8,25 @@
 # Keep this current. An out-of-date fact here becomes a false statement on a
 # public account tied to a financial asset.
 
-[[fact]]
-key = "launched"
-statement = "$TUFFTUNG4 has launched and is live on pump.fun."
-# ISO date. REQUIRED before the bot can reference launch timing.
-verified_on = ""
+# Currently EMPTY, on purpose.
+#
+# The cube voice never states facts about the token — it talks about being
+# heavy. So the bank needs no permitted facts at all, and an empty list is the
+# safest possible configuration: the guard rejects any post that asserts
+# anything checkable, and nothing in the bank tries to.
+#
+# Only add entries here if you later want the account to reference something
+# real. A statement with no verified_on date fails config validation.
 
-[[fact]]
-key = "contract"
-# REQUIRED — the mint/contract address, if you want the bot to be able to
-# state it. Leave blank and the bot will simply never mention it.
-statement = ""
-verified_on = ""
+# [[fact]]
+# key = "launched"
+# statement = "$TUFFTUNG4 has launched and is live on pump.fun."
+# verified_on = ""     # <- fill in the real launch date before enabling this
+#
+# [[fact]]
+# key = "contract"
+# statement = ""       # <- the mint address, if you want it stated in posts
+# verified_on = ""
 
 # Add more as they become true. Examples of the shape:
 #
