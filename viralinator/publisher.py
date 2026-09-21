@@ -69,23 +69,22 @@ mutation CreatePost($input: CreatePostInput!) {
 # reach Buffer, so this exists to have the *runner* report the real schema back
 # in its logs — one dispatch of the verify workflow tells you whether the
 # queries above are right, and if not, exactly what the correct shape is.
+# Kept deliberately narrow. A full type dump overruns the log tail that can be
+# read back from a workflow run, which is the only channel this build has for
+# seeing Buffer's schema at all.
 INTROSPECT_QUERY = """
 query Introspect {
   channelsInput: __type(name: "ChannelsInput") {
-    inputFields { name type { name kind ofType { name kind } } }
+    inputFields { name type { kind name ofType { kind name } } }
   }
   postsInput: __type(name: "PostsInput") {
-    inputFields { name type { name kind ofType { name kind } } }
+    inputFields { name type { kind name ofType { kind name } } }
   }
   shareMode: __type(name: "ShareMode") { enumValues { name } }
   schedulingType: __type(name: "SchedulingType") { enumValues { name } }
   postStatus: __type(name: "PostStatus") { enumValues { name } }
-  postActionSuccess: __type(name: "PostActionSuccess") {
-    fields { name type { name kind ofType { name kind } } }
-  }
-  channelType: __type(name: "Channel") {
-    fields { name type { name kind ofType { name kind } } }
-  }
+  service: __type(name: "Service") { enumValues { name } }
+  postActionSuccess: __type(name: "PostActionSuccess") { fields { name } }
 }
 """
 
