@@ -1,0 +1,35 @@
+name: ci
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install
+        run: pip install --quiet -e ".[dev]"
+
+      # The guard suite is the gate. If it goes red, the thing standing between
+      # a generated post and a public timeline is broken — do not deploy.
+      - name: Test
+        run: pytest -q
+
+      - name: Check for committed secrets
+        run: |
+          set -eu
+          # Catches the obvious shapes: Anthropic keys, Buffer/X tokens, and
+          # anything that looks like a bearer token sitting in tracked files.
+          if git grep -nIE 'sk-ant-[A-Za-z0-9_-]{20,}|1/[A-Za-z0-9]{40,}|AAAA[A-Za-z0-9%]{60,}' -- . ':!*.md'; then
+            echo "::error::possible credential committed to the repo"
+            exit 1
+          fi
+          echo "no obvious secrets found"

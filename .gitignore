@@ -1,0 +1,20 @@
+# Secrets — never commit these
+.env
+.env.*
+*.pem
+*.key
+secrets.toml
+
+# Runtime state
+data/
+*.db
+*.sqlite3
+PAUSED
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/

@@ -1,0 +1,29 @@
+[project]
+name = "viralinator"
+version = "0.1.0"
+description = "Autonomous X content pipeline for $TUFFTUNG4"
+requires-python = ">=3.11"
+dependencies = [
+    "anthropic>=1.0.0",
+    "requests>=2.31.0",
+    "requests-oauthlib>=1.3.1",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0.0"]
+
+[project.scripts]
+viralinator = "viralinator.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+# Declared explicitly. Without this, setuptools' flat-layout auto-discovery
+# sees config/ as a second top-level package and refuses to build. config/
+# holds TOML and JSON read by path at runtime, not importable modules.
+[tool.setuptools]
+packages = ["viralinator"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

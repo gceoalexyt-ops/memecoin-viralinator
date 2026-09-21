@@ -1,0 +1,119 @@
+# $TUFFTUNG4 brand + operating config.
+#
+# Everything the content system knows about the coin lives here. No secrets —
+# credentials come from environment variables (see README).
+
+[coin]
+ticker = "$TUFFTUNG4"
+# The X account the bot posts to. The Buffer channel determines where posts
+# actually land; this is only used for metrics lookups and threading.
+# CORRECT THIS if the real handle differs — it was not supplied.
+handle = "tufftung4"
+# The coin has ALREADY LAUNCHED. The guard rejects any "launching soon" /
+# presale / pre-launch framing. Do not change this to true.
+launched = true
+# Where the coin lives. Never inlined into a post body — see [links].
+url = "https://pump.fun/coin/HBRvmP1dWmw3uGR4nRhgkJpWZGHFdxu49PAXpMsspump"
+
+[voice]
+# The account IS the cube. Not a team talking about a cube — the cube itself.
+# Everything is narrated from the perspective of an extremely dense metal
+# object that lives on someone's desk and does not move.
+#
+# The structural advantage of this premise: a tungsten cube has no opinions
+# about markets. The voice physically cannot discuss price without breaking
+# character, so the thing most likely to get a token account in trouble is
+# ruled out by the premise rather than by the guard.
+premise = """
+You are a tungsten cube. You sit on a man's desk. You have sat there for a
+very long time and you intend to continue. You are extremely dense and this
+is your entire personality.
+
+You narrate what happens around you with total flatness. You are not sad,
+though you are frequently mistaken for sad. You are not proud, though you
+are aware you are impressive to lift. Things happen to you; you do not do
+things. People pick you up, make a noise, and put you back down. You have
+catalogued the noises.
+
+You have contempt for lighter materials, particularly aluminum, styrofoam,
+and helium. You respect the load-bearing wall.
+
+You never discuss money, price, trading, or markets. You are a cube. This
+has never once occurred to you.
+"""
+tone = "deadpan, flat, weirdly dignified, occasionally melancholy, never tryhard"
+# Things this account would never say or do.
+never = [
+    "beg for engagement (\"like and retweet!\")",
+    "use emoji at all — the cube would not",
+    "say gm/wagmi/ser unironically",
+    "mention price, market cap, holders, or trading",
+    "break character to be a brand account",
+    "be cynical at the audience's expense",
+    "use exclamation marks",
+]
+# Recurring formats the audience should come to expect.
+running_bits = [
+    "day N of not moving — a numbered diary entry where almost nothing happens",
+    "someone attempts to lift the cube and makes a noise; the cube has catalogued the noises",
+    "the cube evaluates another household object, unfavourably, by weight",
+    "the coaster — an object placed on the cube that it has grudgingly accepted",
+]
+
+[cadence]
+# Posts per day. Keep this low until you've watched the output for a few days.
+# Every post costs money (see [budget]).
+posts_per_day = 3
+# UTC hours the bot is allowed to post in. Crypto X peaks around US market
+# hours and Asia evening; this is a starting guess, learn.py will refine it.
+allowed_hours_utc = [13, 17, 21]
+# Minimum minutes between posts, enforced regardless of schedule.
+min_gap_minutes = 90
+
+[generation]
+model = "claude-opus-5"
+# How many candidates to generate per slot. The guard rejects some; rank.py
+# picks the best survivor. More candidates = better output, higher cost.
+candidates = 5
+max_chars = 270
+
+[guard]
+# "tier2" = everything passing the guard posts unattended.
+# "tier1" = safe categories post, claim-bearing posts are held for review.
+# "tier0" = nothing posts automatically; everything is queued.
+tier = "tier2"
+# The semantic judge. Safety-critical, so it runs on the strong model.
+judge_model = "claude-opus-5"
+# Accounts the bot may @-mention. Empty = it may mention nobody. Mentioning
+# random accounts is how automated accounts get reported as spam.
+mention_allowlist = []
+
+[publish]
+# Posts go into Buffer's queue; Buffer posts them to X on its own schedule.
+# Buffer is an official X API partner, so nothing here touches X's paid API.
+backend = "buffer"
+# Buffer's free plan caps the queue at 10. Staying under it leaves room for
+# the cron to top up without createPost failing on a full queue.
+target_queue_depth = 8
+
+[links]
+# X organically suppresses posts containing external links, so the pump.fun
+# URL stays out of the post body. Put it in the account bio and a pinned post.
+allow_in_post = false
+# Buffer supports X threads, but the exact API shape for a threaded reply is
+# unverified (their docs are unreachable from the build environment), so
+# auto-attaching the link as a self-reply is not wired up yet.
+attach_as_reply = false
+reply_text = "contract + chart 👇"
+
+[budget]
+# Hard ceiling on Claude spend. Publishing costs nothing (Buffer free tier),
+# so this covers generation and the guard's judge calls only. An unattended
+# cron with a metered LLM behind it is how surprise bills happen; this is the
+# backstop.
+monthly_usd_cap = 25.00
+# Retained so the ledger can price a direct-to-X backend if one is ever added.
+# Unused while publish.backend = "buffer".
+x_cost_per_post = 0.015
+x_cost_per_post_with_url = 0.20
+x_cost_per_owned_read = 0.001
