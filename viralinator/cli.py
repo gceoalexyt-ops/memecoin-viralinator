@@ -107,19 +107,18 @@ def cmd_verify(args) -> int:
         print(f"  target channel: {cid}")
         print(f"  queue depth: {pub.queue_depth()}")
     except PublishError as exc:
+        # The error is printed last, on purpose. A schema dump is long enough to
+        # push the actual message out of the log tail readable from a workflow
+        # run, which is how this gets debugged. Re-run with --introspect when
+        # the schema is what you need.
         print("FAIL")
-        print(f"  {exc}")
         print(
-            "\n  The GraphQL in viralinator/publisher.py was written from Buffer's\n"
-            "  documented shape rather than read off the schema — their docs are\n"
-            "  unreachable from the build sandbox. If this is a field error, the\n"
-            "  queries are module-level constants meant to be corrected in place.\n"
-            "  Dumping the real schema so it can be fixed against the truth:"
+            "\n  The GraphQL in viralinator/publisher.py is corrected against a\n"
+            "  live introspection dump. If this is a field error, the queries are\n"
+            "  module-level constants meant to be edited in place; re-run with\n"
+            "  --introspect to see the schema.\n"
         )
-        try:
-            print(json.dumps(pub.introspect(), indent=2)[:8000])
-        except PublishError as inner:
-            print(f"  introspection also failed: {inner}")
+        print(f"buffer error: {exc}")
         return 1
 
     print("\nall checks passed")
