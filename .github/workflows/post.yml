@@ -9,13 +9,16 @@ name: post
 # credential in play is the Buffer token. Nothing here can expire quietly,
 # overrun a budget, or fail on a rate limit.
 #
-# The schedule is COMMENTED OUT deliberately. Enable it only after the verify
-# workflow passes.
+# Live. The verify workflow passed against the real Buffer API on 2026-09-21
+# and a dispatch run queued 8 posts successfully, so the schedule is enabled.
+#
+# To stop it: run `viralinator pause` (creates a PAUSED file the job checks
+# first), or comment the schedule back out.
 
 on:
   workflow_dispatch:
-  # schedule:
-  #   - cron: "0 */12 * * *"   # every 12h — queue holds 8, drains ~3/day
+  schedule:
+    - cron: "0 */12 * * *"   # every 12h — queue holds 8, drains ~3/day
 
 permissions:
   contents: write   # to commit the consumed bank back

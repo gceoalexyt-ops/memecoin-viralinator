@@ -143,17 +143,35 @@ analytics over its API, so metrics collection is unimplemented and the weights
 sit at their priors. The pipeline runs fine; it just doesn't improve.
 `viralinator measure` says so when you run it.
 
-## Known unverified bits
+## Status
 
-Buffer's docs and API are blocked by the build sandbox's network policy, so the
-GraphQL in `publisher.py` is written from their documented shape rather than
-read off the schema. Confirmed: endpoint, bearer auth, `createPost(input:
-CreatePostInput!)`, `addToQueue` mode, `MutationError` branch. Not confirmed:
-the success-branch type name and the channel-listing query.
+Live as of 2026-09-21. Verified end to end against the real Buffer API:
 
-The queries are module-level constants meant to be corrected in place, and
-`verify --introspect` prints the real schema from a runner, so one dispatch
-tells you whether they're right and what to change if not.
+```
+buffer ... ok (1 channels)
+  - twitter: TuffTung4 [6ab1075fea19ca0bdea3d1c8]
+  queue depth: 0
+all checks passed
+```
+
+A dispatch run then queued 8 posts successfully, and the cron is enabled.
+
+Buffer's docs and API are unreachable from the build sandbox, so the GraphQL in
+`publisher.py` was corrected against introspection dumps read out of workflow
+logs rather than from documentation. Things that turned out to differ from the
+documented shape, in case they drift again:
+
+- `channels` and `posts` require `input.organizationId`; the org id comes from
+  the `account` query
+- `posts` returns a Relay connection (`edges` / `pageInfo`), not a list
+- `SchedulingType` is `automatic` | `notification`
+- `CreatePostInput` requires `assets` and `needsApproval`
+- `PostActionPayload` has no `MutationError` — it's `PostActionSuccess` plus
+  six concrete error types
+- Buffer's `Service` enum still calls X `twitter`
+
+`verify --introspect` prints the live schema from a runner if any of this
+changes.
 
 ## What this deliberately doesn't do
 
