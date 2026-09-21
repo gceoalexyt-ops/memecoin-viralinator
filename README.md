@@ -49,13 +49,18 @@ generator may assert. Anything not in here — a holder count, a milestone, a
 listing, a partnership — gets the post rejected. Leave it near-empty and the
 bot simply writes jokes instead of claims, which is the safer default.
 
-**5. Verify.**
+**5. Verify.** Run the **verify** workflow from the Actions tab with
+`introspect` enabled. It runs the tests, checks both credentials, confirms the
+Buffer connection, and prints Buffer's actual GraphQL schema into the log.
+Nothing posts.
+
+Or locally:
 
 ```bash
 pip install -e ".[dev]"
-pytest -q                      # guard suite must be green
-python -m viralinator.cli verify
-python -m viralinator.cli draft -n 3   # generates and guards, publishes nothing
+pytest -q                                   # guard suite must be green
+python -m viralinator.cli verify --introspect
+python -m viralinator.cli draft -n 3        # generates and guards, publishes nothing
 ```
 
 **6. Enable cron.** Uncomment the `schedule:` block in

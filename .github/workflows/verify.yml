@@ -1,0 +1,48 @@
+name: verify
+
+# Setup check. Run this from the Actions tab before enabling the post cron.
+#
+# It exists as a workflow because the environment this repo was built in cannot
+# reach buffer.com — the network policy blocks it. A GitHub runner can, so the
+# runner is what confirms the Buffer GraphQL queries in publisher.py are right.
+# With "introspect" enabled it prints Buffer's actual schema into the log, which
+# is enough to correct any wrong field name in one pass.
+#
+# Nothing here posts anything.
+
+on:
+  workflow_dispatch:
+    inputs:
+      introspect:
+        description: "Dump Buffer's GraphQL schema into the log"
+        type: boolean
+        default: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install
+        run: pip install --quiet -e ".[dev]"
+
+      - name: Tests
+        run: pytest -q
+
+      - name: Verify
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          BUFFER_ACCESS_TOKEN: ${{ secrets.BUFFER_ACCESS_TOKEN }}
+          BUFFER_CHANNEL_ID: ${{ secrets.BUFFER_CHANNEL_ID }}
+        run: |
+          if [ "${{ inputs.introspect }}" = "true" ]; then
+            python -m viralinator.cli verify --introspect
+          else
+            python -m viralinator.cli verify
+          fi

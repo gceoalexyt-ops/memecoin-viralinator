@@ -12,6 +12,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from datetime import datetime, timedelta, timezone
 
@@ -66,9 +67,17 @@ def cmd_verify(args) -> int:
         print(f"FAIL: {exc}")
         return 1
 
+    pub = BufferPublisher()
+
+    if args.introspect:
+        print("\nbuffer schema introspection:")
+        try:
+            print(json.dumps(pub.introspect(), indent=2)[:8000])
+        except PublishError as exc:
+            print(f"  introspection failed: {exc}")
+
     print("buffer ... ", end="")
     try:
-        pub = BufferPublisher()
         channels = pub.channels()
         print(f"ok ({len(channels)} channels)")
         for ch in channels:
@@ -80,10 +89,16 @@ def cmd_verify(args) -> int:
         print("FAIL")
         print(f"  {exc}")
         print(
-            "\n  If this is a GraphQL field error, the schema differs from what "
-            "\n  this was written against — the queries are constants at the top of"
-            "\n  viralinator/publisher.py and are meant to be corrected in place."
+            "\n  The GraphQL in viralinator/publisher.py was written from Buffer's\n"
+            "  documented shape rather than read off the schema — their docs are\n"
+            "  unreachable from the build sandbox. If this is a field error, the\n"
+            "  queries are module-level constants meant to be corrected in place.\n"
+            "  Dumping the real schema so it can be fixed against the truth:"
         )
+        try:
+            print(json.dumps(pub.introspect(), indent=2)[:8000])
+        except PublishError as inner:
+            print(f"  introspection also failed: {inner}")
         return 1
 
     print("\nall checks passed")
@@ -279,7 +294,13 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="viralinator", description=__doc__)
     sub = parser.add_subparsers(dest="cmd", required=True)
 
-    sub.add_parser("verify").set_defaults(fn=cmd_verify)
+    v = sub.add_parser("verify")
+    v.add_argument(
+        "--introspect",
+        action="store_true",
+        help="dump Buffer's GraphQL schema (use when a field name looks wrong)",
+    )
+    v.set_defaults(fn=cmd_verify)
     sub.add_parser("run").set_defaults(fn=cmd_run)
     sub.add_parser("measure").set_defaults(fn=cmd_measure)
     sub.add_parser("status").set_defaults(fn=cmd_status)

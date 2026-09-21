@@ -65,6 +65,31 @@ mutation CreatePost($input: CreatePostInput!) {
 """
 
 
+# Introspection used by `verify --introspect`. The build environment cannot
+# reach Buffer, so this exists to have the *runner* report the real schema back
+# in its logs — one dispatch of the verify workflow tells you whether the
+# queries above are right, and if not, exactly what the correct shape is.
+INTROSPECT_QUERY = """
+query Introspect {
+  mutationType: __type(name: "Mutation") {
+    fields { name }
+  }
+  queryType: __type(name: "Query") {
+    fields { name }
+  }
+  createPostInput: __type(name: "CreatePostInput") {
+    inputFields {
+      name
+      type { name kind ofType { name kind } }
+    }
+  }
+  payload: __type(name: "PostActionPayload") {
+    possibleTypes { name }
+  }
+}
+"""
+
+
 class PublishError(Exception):
     """Raised when Buffer rejects a call or the response is not understood."""
 
@@ -122,6 +147,15 @@ class BufferPublisher:
         return data
 
     # --- operations ------------------------------------------------------------
+
+    def introspect(self) -> dict:
+        """Ask Buffer what its schema actually looks like.
+
+        Returns the raw introspection payload rather than interpreting it — the
+        point is to get the truth into the workflow log so the queries above can
+        be corrected against it.
+        """
+        return self._gql(INTROSPECT_QUERY)
 
     def channels(self) -> list[Channel]:
         data = self._gql(CHANNELS_QUERY)
