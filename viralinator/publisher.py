@@ -6,15 +6,22 @@ includes 3 channels, a 10-post queue, and 3,000 API requests a month. The cron
 tops the queue up; Buffer does the actual posting on schedule. Net cost to the
 operator: nothing.
 
-    Confirmed: endpoint https://api.buffer.com, `Authorization: Bearer <key>`,
-    mutation `createPost(input: CreatePostInput!): PostActionPayload!`, input
-    carries `text` / `channelId` / `schedulingType` / `mode` (`addToQueue`), and
-    every mutation should select `... on MutationError`.
+    Verified against Buffer's live schema on 2026-09-21 via the verify
+    workflow (their docs and API are unreachable from the build sandbox, so
+    the schema was read out of a runner's introspection dump):
 
-    NOT confirmed: the exact success-branch type name, and the query for
-    listing channels — developers.buffer.com is unreachable from this
-    environment, so those are written from the documented shape above rather
-    than read off the schema.
+      - endpoint https://api.buffer.com, `Authorization: Bearer <key>`
+      - `channels` and `posts` both require `input.organizationId`, so the org
+        id is resolved from `account` first
+      - ShareMode = addToQueue | customScheduled | shareNext | shareNow
+      - SchedulingType = automatic | notification
+      - PostStatus = draft | error | needs_approval | scheduled | sending | sent
+      - Service names X as "twitter"
+      - CreatePostInput requires assets, channelId, mode, needsApproval and
+        schedulingType; text is optional
+      - PostActionPayload = PostActionSuccess | NotFoundError |
+        UnauthorizedError | UnexpectedError | RestProxyError |
+        LimitReachedError | InvalidInputError (there is no MutationError)
 
 Run `viralinator verify` before enabling cron. It exercises every call this
 module makes and prints what came back, so a wrong field name surfaces as a
@@ -34,9 +41,23 @@ TIMEOUT = 30
 # Kept as editable module constants so a field-name correction is a one-line
 # change rather than a hunt through call sites.
 
+# Every list query is scoped to an organization, so the org id has to be
+# resolved before anything else can be asked.
+ACCOUNT_QUERY = """
+query Account {
+  account {
+    id
+    organizations {
+      id
+      name
+    }
+  }
+}
+"""
+
 CHANNELS_QUERY = """
-query Channels {
-  channels {
+query Channels($orgId: OrganizationId!) {
+  channels(input: {organizationId: $orgId}) {
     id
     service
     name
@@ -44,25 +65,44 @@ query Channels {
 }
 """
 
+# Filtered client-side by channel and status rather than through
+# PostsFiltersInput: the free plan caps the queue at 10, so the result set is
+# tiny and this avoids depending on another input shape.
 QUEUE_QUERY = """
-query Queue($channelId: String!) {
-  posts(channelId: $channelId, status: pending) {
+query Queue($orgId: OrganizationId!) {
+  posts(input: {organizationId: $orgId}) {
     id
     status
+    channelId
   }
 }
 """
 
+# PostActionPayload resolves to PostActionSuccess or one of six concrete error
+# types — there is no shared MutationError interface, so each is named.
 CREATE_POST_MUTATION = """
 mutation CreatePost($input: CreatePostInput!) {
   createPost(input: $input) {
     __typename
-    ... on MutationError {
-      message
+    ... on PostActionSuccess {
+      post { id status }
     }
+    ... on NotFoundError { message }
+    ... on UnauthorizedError { message }
+    ... on InvalidInputError { message }
+    ... on LimitReachedError { message }
+    ... on RestProxyError { message }
+    ... on UnexpectedError { message }
   }
 }
 """
+
+# Statuses that mean "still waiting to go out" — these count toward the
+# free plan's 10-post queue cap.
+PENDING_STATUSES = {"scheduled", "needs_approval", "draft"}
+
+# Buffer still calls the X service "twitter" in its Service enum.
+X_SERVICES = {"twitter", "x"}
 
 
 # Introspection used by `verify --introspect`. The build environment cannot
@@ -74,17 +114,12 @@ mutation CreatePost($input: CreatePostInput!) {
 # seeing Buffer's schema at all.
 INTROSPECT_QUERY = """
 query Introspect {
-  channelsInput: __type(name: "ChannelsInput") {
+  accountType: __type(name: "Account") { fields { name } }
+  organizationType: __type(name: "Organization") { fields { name } }
+  postType: __type(name: "Post") { fields { name } }
+  postsFiltersInput: __type(name: "PostsFiltersInput") {
     inputFields { name type { kind name ofType { kind name } } }
   }
-  postsInput: __type(name: "PostsInput") {
-    inputFields { name type { kind name ofType { kind name } } }
-  }
-  shareMode: __type(name: "ShareMode") { enumValues { name } }
-  schedulingType: __type(name: "SchedulingType") { enumValues { name } }
-  postStatus: __type(name: "PostStatus") { enumValues { name } }
-  service: __type(name: "Service") { enumValues { name } }
-  postActionSuccess: __type(name: "PostActionSuccess") { fields { name } }
 }
 """
 
@@ -108,6 +143,7 @@ class BufferPublisher:
                 "BUFFER_ACCESS_TOKEN is not set. Add it as a GitHub Actions secret."
             )
         self.channel_id = channel_id or os.environ.get("BUFFER_CHANNEL_ID", "")
+        self._org_id = os.environ.get("BUFFER_ORGANIZATION_ID", "")
 
     # --- transport -------------------------------------------------------------
 
@@ -156,8 +192,19 @@ class BufferPublisher:
         """
         return self._gql(INTROSPECT_QUERY)
 
+    def organization_id(self) -> str:
+        """Resolved once and cached — every list query needs it."""
+        if self._org_id:
+            return self._org_id
+        data = self._gql(ACCOUNT_QUERY)
+        orgs = (data.get("account") or {}).get("organizations") or []
+        if not orgs:
+            raise PublishError("Buffer account has no organizations")
+        self._org_id = orgs[0]["id"]
+        return self._org_id
+
     def channels(self) -> list[Channel]:
-        data = self._gql(CHANNELS_QUERY)
+        data = self._gql(CHANNELS_QUERY, {"orgId": self.organization_id()})
         return [
             Channel(id=c["id"], service=c.get("service", ""), name=c.get("name", ""))
             for c in data.get("channels", [])
@@ -167,9 +214,7 @@ class BufferPublisher:
         """The X channel to post into, from config or by discovery."""
         if self.channel_id:
             return self.channel_id
-        x_channels = [
-            c for c in self.channels() if c.service.lower() in ("twitter", "x")
-        ]
+        x_channels = [c for c in self.channels() if c.service.lower() in X_SERVICES]
         if not x_channels:
             raise PublishError(
                 "No X channel connected to this Buffer account. Connect one at "
@@ -184,8 +229,13 @@ class BufferPublisher:
 
     def queue_depth(self) -> int:
         """How many posts are already waiting. Free plan caps this at 10."""
-        data = self._gql(QUEUE_QUERY, {"channelId": self.resolve_channel()})
-        return len(data.get("posts", []))
+        channel = self.resolve_channel()
+        data = self._gql(QUEUE_QUERY, {"orgId": self.organization_id()})
+        return sum(
+            1
+            for p in data.get("posts", [])
+            if p.get("channelId") == channel and p.get("status") in PENDING_STATUSES
+        )
 
     def add_to_queue(self, text: str) -> str:
         """Append a post to Buffer's queue. Buffer posts it on its own schedule."""
@@ -195,13 +245,19 @@ class BufferPublisher:
                 "input": {
                     "text": text,
                     "channelId": self.resolve_channel(),
-                    "schedulingType": "auto",
+                    # Required by CreatePostInput even with no media attached.
+                    "assets": [],
+                    "needsApproval": False,
+                    "schedulingType": "automatic",
                     "mode": "addToQueue",
                 }
             },
         )
-        result = data.get("createPost", {})
+        result = data.get("createPost") or {}
         typename = result.get("__typename", "")
-        if typename == "MutationError":
-            raise PublishError(f"Buffer refused the post: {result.get('message')}")
-        return typename or "queued"
+        if typename != "PostActionSuccess":
+            raise PublishError(
+                f"Buffer refused the post ({typename or 'unknown'}): "
+                f"{result.get('message', 'no message')}"
+            )
+        return ((result.get("post") or {}).get("id")) or "queued"
