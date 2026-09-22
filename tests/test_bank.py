@@ -138,33 +138,53 @@ def test_shipped_bank_respects_length_limit() -> None:
 
 
 def test_shipped_bank_has_format_variety() -> None:
-    """A bank that is all one format makes a boring, obviously-automated feed."""
+    """A bank that is all one format makes a boring, obviously-automated feed.
+
+    The ceiling was 40% when the bank was an even spread. It is 55% now: the
+    loud `hype` register measurably outperformed everything else on this
+    account, so concentrating there is deliberate. Past 55% the feed reads as
+    one note on repeat.
+    """
     counts = Bank.load().counts()
     assert len(counts) >= 6
     total = sum(t for _, t in counts.values())
-    assert max(t for _, t in counts.values()) < total * 0.4
+    assert max(t for _, t in counts.values()) < total * 0.55
 
 
 PROMO_FORMATS = {
-    "holding_joke", "ticker_forward", "anti_marketing",
-    "comparative_flex", "where_to_find",
+    "hype", "hype_question", "holding_joke", "ticker_forward",
+    "anti_marketing", "comparative_flex", "where_to_find",
 }
 
 
-def test_shipped_bank_actually_promotes_the_token() -> None:
-    """This is a marketing account. A feed where you could scroll for a week
-    without learning there is a coin is a failed feed — but an all-promo feed
-    gets muted, so the target is a genuine mix."""
+def test_shipped_bank_leads_with_the_loud_register() -> None:
+    """Bounds moved on measured feedback, not taste.
+
+    The first bank was ~50% promotional and quiet/literary in voice; it averaged
+    ~2 views against ~17 for the owner's own loud, ticker-first posts. So the
+    floor went up and the old 65% ceiling came off — it was a prior, and the
+    data contradicted it. A light ceiling stays so the feed keeps some texture.
+    """
     entries = Bank.load().entries
-    promo = [e for e in entries if e.format_key in PROMO_FORMATS]
-    share = len(promo) / len(entries)
-    assert 0.35 <= share <= 0.65, (
-        f"promotional share is {share:.0%}; want 35-65%. "
-        "Too low and the account sells nothing, too high and it gets muted."
+    share = len([e for e in entries if e.format_key in PROMO_FORMATS]) / len(entries)
+    assert 0.60 <= share <= 0.95, (
+        f"loud/promotional share is {share:.0%}; want 60-95%."
     )
 
 
-def test_ticker_appears_in_the_bank() -> None:
-    """Someone has to be able to find out what the coin is called."""
-    mentions = [e for e in Bank.load().entries if "$TUFFTUNG4" in e.text]
-    assert len(mentions) >= 5, "the ticker barely appears in the feed"
+def test_ticker_appears_in_most_of_the_bank() -> None:
+    """A stranger scrolling past must be able to act on the post.
+
+    The first bank mentioned the ticker in ~11% of posts, which is how you get
+    a feed nobody can buy from.
+    """
+    entries = Bank.load().entries
+    share = len([e for e in entries if "$TUFFTUNG4" in e.text]) / len(entries)
+    assert share >= 0.4, f"ticker appears in only {share:.0%} of posts"
+
+
+def test_shipped_bank_is_short() -> None:
+    """Long posts lose scrollers. The first bank averaged 97 chars."""
+    entries = Bank.load().entries
+    avg = sum(len(e.text) for e in entries) / len(entries)
+    assert avg <= 75, f"average post is {avg:.0f} chars; keep it punchy"
