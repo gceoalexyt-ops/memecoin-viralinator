@@ -88,6 +88,25 @@ judge_model = "claude-opus-5"
 # random accounts is how automated accounts get reported as spam.
 mention_allowlist = []
 
+[replies]
+# Replies are the only real distribution lever a small account has — a reply
+# lands in front of an audience that is not yours yet. They are also the
+# fastest way to get suspended, so this is off until a delivery path is wired
+# and the volume stays deliberately small.
+#
+# Replies cannot go through Buffer: it schedules posts to your own timeline and
+# has no way to reply to someone else's tweet. They need X's API directly,
+# which costs ~$0.015 per reply plus reads to find anything worth replying to.
+enabled = false
+# Accounts whose recent posts are candidates. Keep it to accounts whose replies
+# your audience would plausibly read. Empty = replies off.
+watchlist = []
+# Hard ceiling. A handful of thoughtful replies a day is a person
+# participating; a hundred is a bot whatever they say. Config rejects >25.
+max_per_day = 8
+candidates = 3
+max_chars = 200
+
 [publish]
 # Posts go into Buffer's queue; Buffer posts them to X on its own schedule.
 # Buffer is an official X API partner, so nothing here touches X's paid API.
