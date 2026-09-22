@@ -127,7 +127,7 @@
       "format_key": "ticker_forward",
       "image_note": "",
       "generated_at": "2026-09-21T10:48:51+00:00",
-      "used_at": null
+      "used_at": "2026-09-22T00:11:54+00:00"
     },
     {
       "id": "ticker_forward-0016",
@@ -327,7 +327,7 @@
       "format_key": "lore_serial",
       "image_note": "",
       "generated_at": "2026-09-21T10:48:51+00:00",
-      "used_at": null
+      "used_at": "2026-09-22T00:11:54+00:00"
     },
     {
       "id": "lore_serial-0041",
@@ -399,7 +399,7 @@
       "format_key": "absurd_observation",
       "image_note": "",
       "generated_at": "2026-09-21T10:48:51+00:00",
-      "used_at": null
+      "used_at": "2026-09-22T00:11:53+00:00"
     },
     {
       "id": "relatable_degen-0050",
