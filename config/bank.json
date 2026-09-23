@@ -119,7 +119,7 @@
       "format_key": "ticker_forward",
       "image_note": "",
       "generated_at": "2026-09-21T10:48:51+00:00",
-      "used_at": null
+      "used_at": "2026-09-23T00:11:20+00:00"
     },
     {
       "id": "ticker_forward-0015",
@@ -143,7 +143,7 @@
       "format_key": "ticker_forward",
       "image_note": "",
       "generated_at": "2026-09-21T10:48:51+00:00",
-      "used_at": null
+      "used_at": "2026-09-23T00:11:19+00:00"
     },
     {
       "id": "anti_marketing-0018",
@@ -391,7 +391,7 @@
       "format_key": "absurd_observation",
       "image_note": "",
       "generated_at": "2026-09-21T10:48:51+00:00",
-      "used_at": null
+      "used_at": "2026-09-23T00:11:19+00:00"
     },
     {
       "id": "absurd_observation-0049",
