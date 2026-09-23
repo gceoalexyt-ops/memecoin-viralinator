@@ -21,6 +21,7 @@ from viralinator.config import (
     Guard as GuardCfg,
     Links,
     Publish,
+    Replies,
     Voice,
 )
 from viralinator.guard import Guard
@@ -35,6 +36,9 @@ def cfg() -> Config:
         generation=Generation(model="claude-opus-5", candidates=5, max_chars=270),
         guard=GuardCfg(tier="tier2", judge_model="claude-opus-5", mention_allowlist=["pumpdotfun"]),
         links=Links(allow_in_post=False, attach_as_reply=False, reply_text="ca 👇"),
+        replies=Replies(
+            enabled=False, watchlist=[], max_per_day=8, candidates=3, max_chars=200
+        ),
         publish=Publish(backend="buffer", target_queue_depth=8),
         budget=Budget(
             monthly_usd_cap=25.0,
