@@ -463,7 +463,7 @@
       "format_key": "running_bit",
       "image_note": "",
       "generated_at": "2026-09-21T10:48:51+00:00",
-      "used_at": null
+      "used_at": "2026-10-04T03:06:21+00:00"
     },
     {
       "id": "running_bit-0058",
@@ -503,7 +503,7 @@
       "format_key": "self_aware_meta",
       "image_note": "",
       "generated_at": "2026-09-21T10:48:51+00:00",
-      "used_at": null
+      "used_at": "2026-10-04T03:06:20+00:00"
     },
     {
       "id": "self_aware_meta-0063",
@@ -559,7 +559,7 @@
       "format_key": "community_spotlight",
       "image_note": "",
       "generated_at": "2026-09-21T10:48:51+00:00",
-      "used_at": null
+      "used_at": "2026-10-04T03:06:20+00:00"
     },
     {
       "id": "community_spotlight-0070",
