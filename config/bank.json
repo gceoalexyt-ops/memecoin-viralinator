@@ -255,7 +255,7 @@
       "format_key": "comparative_flex",
       "image_note": "",
       "generated_at": "2026-09-21T10:48:51+00:00",
-      "used_at": null
+      "used_at": "2026-10-07T00:13:49+00:00"
     },
     {
       "id": "comparative_flex-0032",
@@ -423,7 +423,7 @@
       "format_key": "relatable_degen",
       "image_note": "",
       "generated_at": "2026-09-21T10:48:51+00:00",
-      "used_at": null
+      "used_at": "2026-10-07T00:13:49+00:00"
     },
     {
       "id": "reply_bait_question-0053",
@@ -599,7 +599,7 @@
       "format_key": "visual_caption",
       "image_note": "the cube surrounded by three much larger but obviously lighter objects: a pillow, a balloon, a loaf of bread",
       "generated_at": "2026-09-21T10:48:51+00:00",
-      "used_at": null
+      "used_at": "2026-10-07T00:13:50+00:00"
     }
   ]
 }
