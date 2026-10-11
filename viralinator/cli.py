@@ -7,6 +7,7 @@
     viralinator status     budget, queue depth, recent posts, format scores
     viralinator pause      stop all publishing
     viralinator resume     undo pause
+    viralinator reply      draft guarded replies to someone else's post
 """
 
 from __future__ import annotations
@@ -301,6 +302,62 @@ def cmd_bank_fill(args) -> int:
     return 0
 
 
+def cmd_reply(args) -> int:
+    """Draft replies to someone else's post, screen them, print the survivors.
+
+    Draft-only by design: replies cannot go through Buffer (its Twitter
+    metadata has `thread` and `retweet` but no reply field), and routing them
+    through X's API is a paid path that was declined. So this produces text to
+    paste, and the guard still runs — the value here is that nothing shilling
+    or generic reaches the clipboard.
+
+    Takes the post's TEXT, not a URL: nothing here can fetch a tweet.
+    """
+    from .replies import ReplyGenerator, ReplyGuard, ReplyTarget
+
+    cfg = load()
+    store = Store()
+    budget = Budget(cfg, store)
+    client = _client()
+
+    target = ReplyTarget(
+        tweet_id=args.id or "",
+        author=(args.author or "someone").lstrip("@"),
+        text=args.text,
+    )
+
+    print(f"replying to @{target.author}:")
+    print(f"  {target.text}\n")
+
+    drafts = ReplyGenerator(cfg, client=client, budget=budget).draft(target)
+    if not drafts:
+        print("no drafts — the generator found nothing worth saying here.")
+        print("that is a valid outcome; most posts have no good cube reply in them.")
+        return 0
+
+    guard = ReplyGuard(cfg, client=client, budget=budget)
+    kept = []
+    for d in drafts:
+        verdict = guard.check(target, d.text)
+        if verdict.ok:
+            kept.append(d)
+        else:
+            print(f"  rejected: {d.text!r}\n    {verdict}")
+
+    if not kept:
+        print("\nnothing survived the guard.")
+        return 0
+
+    print("\n" + "=" * 60)
+    for d in kept:
+        print(f"\n{d.text}")
+        if d.responds_to:
+            print(f"    [answers: {d.responds_to}]")
+    print("\n" + "=" * 60)
+    print(f"\n{len(kept)} draft(s) to paste. spend this month: {budget.status()}")
+    return 0
+
+
 def cmd_bank_status(args) -> int:
     from .bank import Bank
 
@@ -401,6 +458,12 @@ def main(argv: list[str] | None = None) -> int:
     d = sub.add_parser("draft")
     d.add_argument("-n", type=int, default=1, help="how many slots to draft")
     d.set_defaults(fn=cmd_draft)
+
+    r = sub.add_parser("reply", help="draft guarded replies to someone else's post")
+    r.add_argument("text", help="the post's TEXT (a URL alone cannot be fetched)")
+    r.add_argument("--author", help="the poster's handle, for context")
+    r.add_argument("--id", help="tweet id, recorded only")
+    r.set_defaults(fn=cmd_reply)
 
     bank = sub.add_parser("bank", help="manage the pre-screened content bank")
     bank_sub = bank.add_subparsers(dest="bank_cmd", required=True)

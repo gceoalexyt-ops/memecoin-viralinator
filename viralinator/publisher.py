@@ -121,7 +121,9 @@ X_SERVICES = {"twitter", "x"}
 # seeing Buffer's schema at all.
 INTROSPECT_QUERY = """
 query Introspect {
-  postType: __type(name: "Post") { fields { name } }
+  twitterMetadata: __type(name: "TwitterPostMetadataInput") {
+    inputFields { name type { kind name ofType { kind name } } }
+  }
 }
 """
 

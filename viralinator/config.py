@@ -65,6 +65,18 @@ class Links:
 
 
 @dataclass(frozen=True)
+class Replies:
+    enabled: bool
+    # Accounts whose posts are candidates to reply to. Empty = replies off.
+    watchlist: list[str]
+    # Hard ceiling per day. Low on purpose: a handful of thoughtful replies is
+    # a person participating, a hundred is a bot whatever they say.
+    max_per_day: int
+    candidates: int
+    max_chars: int
+
+
+@dataclass(frozen=True)
 class Publish:
     backend: str
     # How full to keep Buffer's queue. The free plan caps it at 10, so this
@@ -100,6 +112,7 @@ class Config:
     generation: Generation
     guard: Guard
     links: Links
+    replies: Replies
     publish: Publish
     budget: Budget
     facts: list[Fact] = field(default_factory=list)
@@ -182,6 +195,15 @@ def load(config_dir: Path | None = None) -> Config:
         reply_text=links_r.get("reply_text", ""),
     )
 
+    rep_r = raw.get("replies", {})
+    replies = Replies(
+        enabled=bool(rep_r.get("enabled", False)),
+        watchlist=[h.lstrip("@").lower() for h in rep_r.get("watchlist", [])],
+        max_per_day=int(rep_r.get("max_per_day", 8)),
+        candidates=int(rep_r.get("candidates", 3)),
+        max_chars=int(rep_r.get("max_chars", 200)),
+    )
+
     pub_r = raw.get("publish", {})
     publish = Publish(
         backend=pub_r.get("backend", "buffer"),
@@ -239,6 +261,21 @@ def load(config_dir: Path | None = None) -> Config:
     if budget.monthly_usd_cap <= 0:
         errors.append("budget.monthly_usd_cap must be positive")
 
+    if replies.enabled and not replies.watchlist:
+        errors.append(
+            "replies.enabled is true but replies.watchlist is empty — there is "
+            "nothing to reply to"
+        )
+
+    if replies.max_per_day > 25:
+        errors.append(
+            f"replies.max_per_day is {replies.max_per_day}. Automated replies at "
+            "volume are the fastest route to a suspension; keep this low."
+        )
+
+    if replies.max_chars > 280:
+        errors.append("replies.max_chars cannot exceed 280")
+
     if publish.backend not in ("buffer",):
         errors.append(f"publish.backend {publish.backend!r} is not implemented")
 
@@ -264,6 +301,7 @@ def load(config_dir: Path | None = None) -> Config:
         generation=generation,
         guard=guard,
         links=links,
+        replies=replies,
         publish=publish,
         budget=budget,
         facts=facts,

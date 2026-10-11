@@ -152,6 +152,33 @@ FORMATS: list[Format] = [
         base_weight=1.1,
     ),
     Format(
+        key="hype",
+        description="Loud, short, ticker-first",
+        instruction=(
+            "SHOUT IT. Caps, minimal punctuation, maximum energy. The ticker "
+            "appears in the first few words. It must be parseable by a stranger "
+            "in half a second with no prior context — no callbacks, no lore, no "
+            "setup. Under 90 characters if you can. This is the register that "
+            "measurably outperforms on this account; the quiet literary voice "
+            "does not. Still no price, returns, multiples or guarantees — "
+            "generic hype like 'to the moon' is fine, a number is not."
+        ),
+        category="safe",
+        base_weight=2.0,
+    ),
+    Format(
+        key="hype_question",
+        description="Loud reply bait",
+        instruction=(
+            "A short, loud question a stranger can answer instantly without "
+            "knowing anything about this account. Caps. No setup. Never ask for "
+            "likes, follows or reposts — ask something people actually want to "
+            "answer. Replies are the heaviest ranking signal there is."
+        ),
+        category="safe",
+        base_weight=1.7,
+    ),
+    Format(
         key="holding_joke",
         description="Not moving is not selling — the core bit",
         instruction=(

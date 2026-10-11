@@ -16,6 +16,15 @@
 # rejects any assertion not on this list, so being able to cite real physics is
 # what lets the voice have texture without inventing anything.
 
+# Attested by the owner on 2026-09-21, with the pump.fun URL. Durable: it does
+# not go stale the way a holder count or market cap would. Without it the guard
+# rejects any post saying the coin exists anywhere, which rules out the whole
+# "it's live, go look" register that actually performs.
+[[fact]]
+key = "live_on_pumpfun"
+statement = "$TUFFTUNG4 is live on pump fun."
+verified_on = "2026-09-21"
+
 [[fact]]
 key = "density"
 statement = "Tungsten has a density of 19.25 grams per cubic centimetre."
