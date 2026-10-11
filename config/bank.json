@@ -319,7 +319,7 @@
       "format_key": "ticker_forward",
       "image_note": "",
       "generated_at": "2026-09-22T05:13:32+00:00",
-      "used_at": null
+      "used_at": "2026-10-02T00:12:49+00:00"
     },
     {
       "id": "ticker_forward-0040",
@@ -351,7 +351,7 @@
       "format_key": "anti_marketing",
       "image_note": "",
       "generated_at": "2026-09-22T05:13:32+00:00",
-      "used_at": null
+      "used_at": "2026-10-10T00:13:55+00:00"
     },
     {
       "id": "anti_marketing-0044",
@@ -367,7 +367,7 @@
       "format_key": "anti_marketing",
       "image_note": "",
       "generated_at": "2026-09-22T05:13:32+00:00",
-      "used_at": null
+      "used_at": "2026-09-24T00:11:18+00:00"
     },
     {
       "id": "anti_marketing-0046",
@@ -447,7 +447,7 @@
       "format_key": "holding_joke",
       "image_note": "",
       "generated_at": "2026-09-22T05:13:32+00:00",
-      "used_at": null
+      "used_at": "2026-10-03T00:12:26+00:00"
     },
     {
       "id": "holding_joke-0056",
@@ -495,7 +495,7 @@
       "format_key": "absurd_observation",
       "image_note": "",
       "generated_at": "2026-09-22T05:13:32+00:00",
-      "used_at": null
+      "used_at": "2026-09-28T00:12:56+00:00"
     },
     {
       "id": "absurd_observation-0062",
@@ -503,7 +503,7 @@
       "format_key": "absurd_observation",
       "image_note": "",
       "generated_at": "2026-09-22T05:13:32+00:00",
-      "used_at": null
+      "used_at": "2026-09-24T00:11:17+00:00"
     },
     {
       "id": "absurd_observation-0063",
@@ -519,7 +519,7 @@
       "format_key": "running_bit",
       "image_note": "",
       "generated_at": "2026-09-22T05:13:32+00:00",
-      "used_at": null
+      "used_at": "2026-10-04T03:06:21+00:00"
     },
     {
       "id": "running_bit-0065",
@@ -583,7 +583,7 @@
       "format_key": "visual_caption",
       "image_note": "a small wooden display stand visibly buckling under a dark metal cube",
       "generated_at": "2026-09-22T05:13:32+00:00",
-      "used_at": null
+      "used_at": "2026-09-27T00:12:37+00:00"
     }
   ]
 }
