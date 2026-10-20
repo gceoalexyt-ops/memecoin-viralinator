@@ -231,7 +231,7 @@
       "format_key": "hype",
       "image_note": "",
       "generated_at": "2026-09-22T05:13:32+00:00",
-      "used_at": null
+      "used_at": "2026-10-20T03:16:39+00:00"
     },
     {
       "id": "hype-0029",
@@ -311,7 +311,7 @@
       "format_key": "ticker_forward",
       "image_note": "",
       "generated_at": "2026-09-22T05:13:32+00:00",
-      "used_at": null
+      "used_at": "2026-10-20T03:16:39+00:00"
     },
     {
       "id": "ticker_forward-0039",
@@ -543,7 +543,7 @@
       "format_key": "community_spotlight",
       "image_note": "",
       "generated_at": "2026-09-22T05:13:32+00:00",
-      "used_at": null
+      "used_at": "2026-10-20T03:16:39+00:00"
     },
     {
       "id": "self_aware_meta-0068",
